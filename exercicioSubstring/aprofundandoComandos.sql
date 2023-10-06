@@ -1,4 +1,4 @@
-	CREATE DATABASE empresa
+CREATE DATABASE empresa
 
 USE empresa
 
