@@ -30,5 +30,8 @@ INSERT INTO tbl_dados VALUES
 SELECT * FROM tbl_dados
 --Exercicio 2
 
-SELECT nome, CAST(SUBSTRING(taxa_presenca,1,999) + '%' AS VARCHAR) , CAST(SUBSTRING(salario_base,1,15) + 'R$' AS VARCHAR) 
-FROM tbl_dados
+SELECT nome AS 'Nome', SUBSTRING(CAST(taxa_presenca AS VARCHAR(10)), 1, 10) + '%' AS 'Taxa de Presença', 'R$' + SUBSTRING(CAST(salario_base AS VARCHAR(6)), 1, 6) AS 'Salario Base'
+FROM tbl_dados ORDER BY taxa_presenca DESC
+
+--Exercicio 3
+
