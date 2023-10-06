@@ -1,4 +1,4 @@
-CREATE DATABASE empresa
+	CREATE DATABASE empresa
 
 USE empresa
 
@@ -47,9 +47,11 @@ INSERT INTO tbl_departamento VALUES
 	('Engenharia Civil', 2, 30303030),
 	('Engenharia Mecânica', 3, 20202020);
 
+SELECT * FROM tbl_departamento
+
 CREATE TABLE tbl_empregado (
 	nome varchar(150) NOT NULL,
-	rg int NOT NULL,
+	rg int NOT NULL IDENTITY(10101010, 10101010),
 	cic int NOT NULL,
 	departamento int NOT NULL,
 	rg_supervisor int,
@@ -58,18 +60,47 @@ CREATE TABLE tbl_empregado (
 	FOREIGN KEY(departamento) REFERENCES tbl_departamento(numero)
 )
 
-INSERT INTO tbl_empregado VALUES
-	('João Luiz', 10101010, 11111111, 1, NULL, '3.000,00'),
-	('Fernando', 20202020, 22222222, 2, 10101010, '2.500,00'),
-	('Ricardo', 30303030, 33333333, 2, 10101010, '2.300,00'),
-	('Jorge', 40404040, 44444444, 2, 20202020, '4.200,00'),
-	('Renato', 50505050, 55555555, 3, 20202020, '1.300,00');
+INSERT INTO tbl_empregado (nome, cic,departamento,rg_supervisor,salario)
+VALUES
+	('João Luiz', 11111111, 1, NULL, '3.000,00'),
+	('Fernando', 22222222, 2, 10101010, '2.500,00'),
+	('Ricardo', 33333333, 2, 10101010, '2.300,00'),
+	('Jorge', 44444444, 2, 20202020, '4.200,00'),
+	('Renato', 55555555, 3, 20202020, '1.300,00');
  
 SELECT * FROM tbl_empregado
 
 --Exercicio 4
 
 SELECT nome AS 'Nome', 
-	   SUBSTRING(CAST(rg AS VARCHAR(8)), 1, 2) + '.' + SUBSTRING(CAST(rg AS VARCHAR(8)), 3, 3) + '.' + SUBSTRING(CAST(rg AS VARCHAR(8)),7,2) + '-' + SUBSTRING(CAST(rg AS VARCHAR(8)),8,1) AS 'RG',
-	   SUBSTRING(CAST(cpf AS VARCHAR(11)), 1, 3) + '.' +SUBSTRING(CAST(cpf AS VARCHAR(11)),3,3) + '.' + SUBSTRING(CAST(cpf AS VARCHAR(11)),6,3) + '-' + SUBSTRING(CAST(cpf AS VARCHAR(11)),9,2) AS 'CPF' 
+	   SUBSTRING(CAST(rg AS VARCHAR(8)), 1, 2) + '.' + SUBSTRING(CAST(rg AS VARCHAR(8)), 3, 3) + '.' + SUBSTRING(CAST(rg AS VARCHAR(8)),6,3) + '-' + 'X' AS 'RG',
+	   SUBSTRING(CAST(cic AS VARCHAR(8)), 1, 3) + '.' +SUBSTRING(CAST(cic AS VARCHAR(8)),3,3) + '.' + SUBSTRING(CAST(cic AS VARCHAR(8)	),6,2) + 'X-XX' AS 'CPF' 
 FROM tbl_empregado ORDER BY CPF
+
+--Criação de Procedure SEM OS SELECTS DOS EXERCICIOS
+
+CREATE PROCEDURE printarTabelas 
+AS
+	SELECT * FROM tbl_dados
+	SELECT * FROM tbl_departamento
+	SELECT * FROM tbl_empregado
+GO;
+
+--Criação de Procedure COM OS SELECTS DOS EXERCICIOS
+
+CREATE PROCEDURE printarTabelasExercicios2e4
+AS
+	SELECT nome AS 'Nome', SUBSTRING(CAST(taxa_presenca AS VARCHAR(10)), 1, 10) + '%' AS 'Taxa de Presença', 'R$' + SUBSTRING(CAST(salario_base AS VARCHAR(6)), 1, 6) AS 'Salario Base'
+	FROM tbl_dados ORDER BY taxa_presenca DESC
+
+	SELECT nome AS 'Nome', 
+	   SUBSTRING(CAST(rg AS VARCHAR(8)), 1, 2) + '.' + SUBSTRING(CAST(rg AS VARCHAR(8)), 3, 3) + '.' + SUBSTRING(CAST(rg AS VARCHAR(8)),6,3) + '-' + 'X' AS 'RG',
+	   SUBSTRING(CAST(cic AS VARCHAR(8)), 1, 3) + '.' +SUBSTRING(CAST(cic AS VARCHAR(8)),3,3) + '.' + SUBSTRING(CAST(cic AS VARCHAR(8)	),6,2) + 'X-XX' AS 'CPF' 
+	FROM tbl_empregado
+GO;
+
+--Printa as tabelas sem exercicios resolvidos
+EXEC printarTabelas
+
+--Printa os exercicios 2 e 4
+EXEC printarTabelasExercicios2e4
