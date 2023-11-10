@@ -119,15 +119,15 @@ SELECT 'Nº'+CAST(ranking AS VARCHAR)AS Ranking,emprestimos AS Emprestimos,nome_o
 
 --Exercicio 2
 
-SELECT COUNT(*) AS Adulto FROM tbl_livros_mais_vendidos WHERE publico_alvo = 'adulto'
-SELECT COUNT(*) AS InfantoJuvenil FROM tbl_livros_mais_vendidos WHERE publico_alvo = 'infantojuvenil'
+SELECT COUNT(*) AS Contagem_Adulto_InfantoJuvenil FROM tbl_livros_mais_vendidos WHERE publico_alvo = 'adulto' OR publico_alvo = 'infantojuvenil'
 
 --Execicio 3
 
+SELECT SUM(emprestimos) AS 'Soma emprestimos geral' FROM tbl_livros_mais_vendidos
 SELECT SUM(emprestimos) AS 'Soma emprestimos adulto' FROM tbl_livros_mais_vendidos  WHERE publico_alvo = 'adulto' 
 SELECT SUM(emprestimos) AS 'Soma emprestimo infatojuvenil' FROM tbl_livros_mais_vendidos  WHERE publico_alvo = 'infantojuvenil'
 
---Exercico 4
+--Exercicio 4
 
 SELECT COUNT(*) AS 'JK-Roling' FROM tbl_livros_mais_vendidos WHERE autores = 'J. K. Rowling'
 SELECT COUNT(*) AS 'Rick Blonde' FROM tbl_livros_mais_vendidos WHERE autores = 'Rick Blonde'
@@ -135,3 +135,30 @@ SELECT COUNT(*) AS 'Jonh Green' FROM tbl_livros_mais_vendidos WHERE autores = 'J
 SELECT COUNT(*) AS 'Augusto Cury' FROM tbl_livros_mais_vendidos WHERE autores = 'Augusto Cury'
 SELECT COUNT(*) AS 'Agatha Christie' FROM tbl_livros_mais_vendidos WHERE autores = 'Agatha Christie'
 SELECT COUNT(*) AS 'Rick Riordan' FROM tbl_livros_mais_vendidos WHERE autores = 'Rick Riordan'
+
+--PROCEDURES
+
+CREATE PROCEDURE printarExercicios
+AS
+	SELECT COUNT(*) AS Contagem_Adulto_InfantoJuvenil FROM tbl_livros_mais_vendidos WHERE publico_alvo = 'adulto' OR publico_alvo = 'infantojuvenil'
+
+	SELECT SUM(emprestimos) AS 'Soma emprestimos geral' FROM tbl_livros_mais_vendidos
+
+	SELECT SUM(emprestimos) AS 'Soma emprestimos adulto' FROM tbl_livros_mais_vendidos  WHERE publico_alvo = 'adulto' 
+
+	SELECT SUM(emprestimos) AS 'Soma emprestimo infatojuvenil' FROM tbl_livros_mais_vendidos  WHERE publico_alvo = 'infantojuvenil'
+
+	SELECT COUNT(*) AS 'JK-Roling' FROM tbl_livros_mais_vendidos WHERE autores = 'J. K. Rowling'
+
+	SELECT COUNT(*) AS 'Rick Blonde' FROM tbl_livros_mais_vendidos WHERE autores = 'Rick Blonde'
+
+	SELECT COUNT(*) AS 'Jonh Green' FROM tbl_livros_mais_vendidos WHERE autores = 'Jonh Green'
+
+	SELECT COUNT(*) AS 'Augusto Cury' FROM tbl_livros_mais_vendidos WHERE autores = 'Augusto Cury'
+
+	SELECT COUNT(*) AS 'Agatha Christie' FROM tbl_livros_mais_vendidos WHERE autores = 'Agatha Christie'
+
+	SELECT COUNT(*) AS 'Rick Riordan' FROM tbl_livros_mais_vendidos WHERE autores = 'Rick Riordan'
+GO
+
+EXEC printarExercicios
